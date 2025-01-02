@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LogosAI Education Assistant</title>
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .header {
+            background: linear-gradient(to right, #1e293b, #0f172a);
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .notice-board {
+            background: white;
+            border-radius: 1rem;
+            padding: 2rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .notice-item {
+            padding: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .notice-item:last-child {
+            border-bottom: none;
+        }
+
+        .notice-category {
+            background: #3b82f6;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .notice-date {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .feature-card h3 {
+            color: #3b82f6;
+            margin-bottom: 1rem;
+        }
+
+        .demo-section {
+            background: #f1f5f9;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3b82f6;
+            margin-bottom: 0.5rem;
+        }
+
+        .notice-filter {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.5rem;
+            background: white;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-button.active {
+            background: #3b82f6;
+            color: white;
+            border-color: #3b82f6;
+        }
+
+        .important-notice {
+            background: #fee2e2;
+            border-left: 4px solid #ef4444;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 0.5rem;
+        }
+
+        .calendar-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .calendar-event {
+            padding: 1rem;
+            border-left: 3px solid #3b82f6;
+            background: #f8fafc;
+            border-radius: 0.5rem;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .quick-link {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            transition: transform 0.2s;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 768px) {
+            .stats-section {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .search-bar {
+            margin: 2rem 0;
+            position: relative;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 1rem 1.5rem;
+            border-radius: 0.75rem;
+            border: 1px solid #e2e8f0;
+            background: white;
+            font-size: 1rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+
+        .search-bar input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .department-info {
+            background: linear-gradient(135deg, #1e293b, #0f172a);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 1rem;
+            margin: 3rem 0;
+        }
+
+        .department-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .department-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 1.5rem;
+            border-radius: 0.75rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .upcoming-events {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        .event-card {
+            display: flex;
+            gap: 1.5rem;
+            padding: 1.5rem;
+            border-bottom: 1px solid #e2e8f0;
+            transition: all 0.2s;
+        }
+
+        .event-card:hover {
+            background: #f8fafc;
+        }
+
+        .event-date {
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .event-day {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #3b82f6;
+        }
+
+        .research-highlights {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .research-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s;
+        }
+
+        .research-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .research-image {
+            height: 200px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .research-content {
+            padding: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            background: #e2e8f0;
+            color: #475569;
+        }
+
+        @media (max-width: 640px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .stat-number {
+                font-size: 1.5rem;
+            }
+            
+            .notice-filter {
+                flex-wrap: wrap;
+            }
+            
+            .event-card {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>Educational Assistant Bot</h1>
+        <p>Your 24/7 Campus Information Guide</p>
+    </header>
+
+    <div class="container">
+        <!-- Stats Section -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-number">2,500+</div>
+                <div>Graduate Students</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">150+</div>
+                <div>Research Projects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">98%</div>
+                <div>Employment Rate</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45+</div>
+                <div>Partner Companies</div>
+            </div>
+        </div>
+
+        <!-- Important Notice -->
+        <div class="important-notice">
+            <h3>🔔 Important Announcement</h3>
+            <p>2024 Spring Semester Registration Period: Feb 19 - Feb 23, 2024</p>
+        </div>
+
+        <!-- Notice Board with Filters -->
+        <div class="notice-board">
+            <h2>Notices & Announcements</h2>
+            <div class="notice-filter">
+                <button class="filter-button active">All</button>
+                <button class="filter-button">Academic</button>
+                <button class="filter-button">Research</button>
+                <button class="filter-button">Events</button>
+                <button class="filter-button">Scholarships</button>
+            </div>
+            <div class="notice-item">
+                <span class="notice-category">Academic</span>
+                <span>2024-2 Grade Announcement and Appeal Period</span>
+                <span class="notice-date">2024-12-18</span>
+            </div>
+            <div class="notice-item">
+                <span class="notice-category">Research</span>
+                <span>AI Research Center Open Lab Day Registration</span>
+                <span class="notice-date">2024-12-18</span>
+            </div>
+            <div class="notice-item">
+                <span class="notice-category">Scholarship</span>
+                <span>2024 Spring Samsung Software Scholarship Application</span>
+                <span class="notice-date">2024-12-18</span>
+            </div>
+            <div class="notice-item">
+                <span class="notice-category">Event</span>
+                <span>2024 Graduate School Career Fair</span>
+                <span class="notice-date">2024-12-17</span>
+            </div>
+            <div class="notice-item">
+                <span class="notice-category">Academic</span>
+                <span>Changes in Course Registration System for 2024</span>
+                <span class="notice-date">2024-12-17</span>
+            </div>
+        </div>
+
+        <!-- Academic Calendar -->
+        <div class="calendar-section">
+            <h2>Academic Calendar</h2>
+            <div class="calendar-grid">
+                <div class="calendar-event">
+                    <h4>February 2024</h4>
+                    <ul>
+                        <li>Feb 19-23: Course Registration</li>
+                        <li>Feb 26: Spring Semester Begins</li>
+                        <li>Feb 28: Orientation Day</li>
+                    </ul>
+                </div>
+                <div class="calendar-event">
+                    <h4>March 2024</h4>
+                    <ul>
+                        <li>Mar 4-8: Add/Drop Period</li>
+                        <li>Mar 15: Research Proposal Due</li>
+                        <li>Mar 25: Mid-term Week Begins</li>
+                    </ul>
+                </div>
+                <div class="calendar-event">
+                    <h4>April 2024</h4>
+                    <ul>
+                        <li>Apr 5: Thesis Submission Deadline</li>
+                        <li>Apr 15: Spring Conference</li>
+                        <li>Apr 22: Career Week</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="quick-links">
+            <a href="#" class="quick-link">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                </svg>
+                Course Catalog
+            </a>
+            <a href="#" class="quick-link">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+                Forms & Documents
+            </a>
+            <a href="#" class="quick-link">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                </svg>
+                Career Center
+            </a>
+            <a href="#" class="quick-link">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+                </svg>
+                Campus Map
+            </a>
+        </div>
+
+        <section class="features-section">
+            <div class="feature-card">
+                <h3>Academic Information</h3>
+                <ul>
+                    <li>Course Registration</li>
+                    <li>Grade Inquiries</li>
+                    <li>Thesis Submission</li>
+                    <li>Academic Calendar</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Campus Services</h3>
+                <ul>
+                    <li>Scholarship Information</li>
+                    <li>Student Support</li>
+                    <li>Research Programs</li>
+                    <li>Events & Seminars</li>
+                </ul>
+            </div>
+            <div class="feature-card">
+                <h3>Quick Support</h3>
+                <ul>
+                    <li>24/7 Assistance</li>
+                    <li>Instant Responses</li>
+                    <li>Multi-language Support</li>
+                    <li>Document Search</li>
+                </ul>
+            </div>
+        </section>
+
+        <div class="demo-section">
+            <h2>Try Our Educational Assistant</h2>
+            <p>Click the chat icon to get instant answers about campus information!</p>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <input type="text" placeholder="Search notices, events, or academic information...">
+        </div>
+
+        <!-- Department Information -->
+        <div class="department-info">
+            <h2>Department Overview</h2>
+            <div class="department-grid">
+                <div class="department-card">
+                    <h3>Research Areas</h3>
+                    <ul>
+                        <li>Artificial Intelligence</li>
+                        <li>Computer Systems</li>
+                        <li>Software Engineering</li>
+                        <li>Data Science</li>
+                    </ul>
+                </div>
+                <div class="department-card">
+                    <h3>Programs Offered</h3>
+                    <ul>
+                        <li>Master of Science</li>
+                        <li>Doctor of Philosophy</li>
+                        <li>Combined MS/PhD</li>
+                        <li>Professional Master's</li>
+                    </ul>
+                </div>
+                <div class="department-card">
+                    <h3>Achievements</h3>
+                    <ul>
+                        <li>#1 in Computer Science</li>
+                        <li>100+ Research Papers</li>
+                        <li>30+ Patents</li>
+                        <li>15+ Industry Partners</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Upcoming Events -->
+        <div class="upcoming-events">
+            <h2>Upcoming Events</h2>
+            <div class="event-card">
+                <div class="event-date">
+                    <div class="event-day">15</div>
+                    <div>MAR</div>
+                </div>
+                <div>
+                    <h3>AI Research Symposium</h3>
+                    <p>Annual symposium featuring cutting-edge AI research presentations</p>
+                    <div class="tag">Research</div>
+                    <div class="tag">Conference</div>
+                </div>
+            </div>
+            <div class="event-card">
+                <div class="event-date">
+                    <div class="event-day">22</div>
+                    <div>MAR</div>
+                </div>
+                <div>
+                    <h3>Graduate Student Workshop</h3>
+                    <p>Career development and research skills workshop for graduate students</p>
+                    <div class="tag">Workshop</div>
+                    <div class="tag">Career</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Research Highlights -->
+        <div class="research-highlights">
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://via.placeholder.com/400x200')"></div>
+                <div class="research-content">
+                    <h3>AI in Healthcare</h3>
+                    <p>Developing advanced AI solutions for medical diagnosis and treatment</p>
+                    <div class="tag">AI</div>
+                    <div class="tag">Healthcare</div>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://via.placeholder.com/400x200')"></div>
+                <div class="research-content">
+                    <h3>Next-Gen Computing</h3>
+                    <p>Exploring quantum computing and advanced computer architectures</p>
+                    <div class="tag">Computing</div>
+                    <div class="tag">Innovation</div>
+                </div>
+            </div>
+            <div class="research-card">
+                <div class="research-image" style="background-image: url('https://via.placeholder.com/400x200')"></div>
+                <div class="research-content">
+                    <h3>Smart Cities</h3>
+                    <p>Building intelligent urban infrastructure systems</p>
+                    <div class="tag">IoT</div>
+                    <div class="tag">Urban Tech</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chat Widget Integration -->
+    <script>
+    (function(w,d,s,o,f,js,fjs){
+        w['LogosAIWidget']=o;
+        w[o]=w[o]||function(){(w[o].q=w[o].q||[]).push(arguments)};
+        js=d.createElement(s),fjs=d.getElementsByTagName(s)[0];
+        js.id='logos-ai-widget';
+        js.src='http://logosai.info:8000/widget.js';
+        
+        const chatId = '5119265871149a92660cd5b94bcc55cf662b79c173fedbf1b3b829262b539322';
+        js.dataset.chatId = chatId;
+        
+        const mode = 'light';
+        const baseUrl = `http://logosai.info:8000/public-chat/${chatId}`;
+        const finalUrl = `${baseUrl}?mode=${mode}`;
+        js.dataset.url = finalUrl;
+        
+        js.dataset.position = JSON.stringify({
+            bottom: '20px',
+            right: '20px'
+        });
+        
+        js.dataset.styles = JSON.stringify({
+            iframe: {
+                border: '1px solid rgba(0, 0, 0, 0.1)',
+                borderRadius: '12px',
+                boxShadow: '0 4px 12px rgba(0, 0, 0, 0.1)',
+                width: '380px',
+                height: '600px'
+            },
+            toggleButton: {
+                border: '1px solid rgba(0, 0, 0, 0.1)',
+                boxShadow: '0 2px 8px rgba(0, 0, 0, 0.1)',
+                backgroundColor: '#3B82F6'
+            }
+        });
+        
+        fjs.parentNode.insertBefore(js,fjs);
+    }(window,document,'script','LogosAI'));
+    </script>
+</body>
+</html> 
